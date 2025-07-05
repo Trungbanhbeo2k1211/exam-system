@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách câu hỏi</title>
+</head>
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --secondary-color: #3a56a0;
+        --accent-color: #4895ef;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+        --pulse-animation: pulse 1.5s infinite;
+        --float-animation: float 3s ease-in-out infinite;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-color);
+        background-color: #f5f7fa;
+        padding: 30px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--primary-color);
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        background-color: white;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        position: relative;
+        transition: var(--transition);
+    }
+
+    li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    strong {
+        color: var(--primary-color);
+        font-size: 1.1em;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    ul ul {
+        margin: 15px 0;
+        padding-left: 20px;
+    }
+
+    ul ul li {
+        background: none;
+        padding: 5px 0;
+        margin: 0;
+        box-shadow: none;
+        border-left: 3px solid var(--accent-color);
+        padding-left: 15px;
+    }
+
+    ul ul li:before {
+        content: "•";
+        color: var(--accent-color);
+        margin-right: 8px;
+    }
+
+    em {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 8px 12px;
+        background-color: rgba(40, 167, 69, 0.1);
+        color: var(--success-color);
+        border-radius: var(--border-radius);
+        font-style: normal;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+        background-color: white;
+    }
+
+    th,
+    td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+    }
+
+    th {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(67, 97, 238, 0.5), rgba(0, 0, 0, 0));
+        margin: 25px 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 500;
+        transition: var(--transition);
+        display: inline-block;
+        margin: 5px 0;
+        padding: 8px 12px;
+        border-radius: var(--border-radius);
+    }
+
+/* a[href*="add"] {
+        animation: var(--float-animation);
+        background: linear-gradient(135deg, rgba(72,149,239,0.2) 0%, rgba(67,97,238,0.2) 100%);
+        position: relative;
+        overflow: hidden;
+    } */
+
+    a[href*="add"]:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* a[href*="add"]::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            to bottom right,
+            rgba(255,255,255,0) 45%,
+            rgba(255,255,255,0.8) 50%,
+            rgba(255,255,255,0) 55%
+        );
+        transform: rotate(30deg);
+        transition: all 0.5s ease;
+    } */
+
+    a[href*="add"]:hover::after {
+        left: 100%;
+        top: 100%;
+    }
+
+    a[href*="edit"] {
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+    }
+
+    a[href*="edit"]:hover {
+        background-color: var(--warning-color);
+        color: white;
+        transform: rotate(-5deg) scale(1.1);
+        box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+    }
+
+    a[href*="delete"] {
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    a[href*="delete"]:hover {
+        animation: shake 0.5s;
+        background-color: var(--danger-color);
+        color: white;
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+    }
+
+    /* a[href*="dashboard"] {
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        border: 1px solid rgba(108, 117, 125, 0.3);
+    } */
+
+    /* a[href*="dashboard"]:hover {
+        background-color: #6c757d;
+        color: white;
+        transform: translateX(-5px);
+        box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+    } */
+
+    a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            padding: 20px;
+        }
+
+        li {
+            padding: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px 10px;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+        @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0px); }
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-3px); }
+        50% { transform: translateX(3px); }
+        75% { transform: translateX(-3px); }
+        100% { transform: translateX(0); }
+    }
+</style>
+
+<body>
+    <h2>Câu hỏi trong đề thi: {{ exam.title }}</h2>
+
+    {% if questions %}
+    <ul>
+        {% for q in questions %}
+        <li>
+            <strong>Câu {{ loop.index }} ({{ q.question_type }}):</strong><br>
+            {{ q.question_text }}<br>
+
+            {% if q.question_type == 'multiple_choice' or q.question_type == 'true_false_multi' %}
+            <ul>
+                {% for c in q.choices %}
+                <li>{{ c.choice_text }} {% if c.is_correct %}(✔ đúng){% endif %}</li>
+                {% endfor %}
+            </ul>
+            {% elif q.question_type == 'fill_blank' %}
+            <em>Đáp án: {{ q.choices[0].choice_text }}</em>
+            {% elif q.question_type == 'matching' %}
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>Cột A</th>
+                    <th>Cột B</th>
+                </tr>
+                {% for m in q.match_pairs %}
+                <tr>
+                    <td>{{ m.left_text }}</td>
+                    <td>{{ m.right_text }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+
+
+            <a href="{{ url_for('admin.edit_question', question_id=q.id) }}">🛠️ Sửa</a> |
+            <a href="{{ url_for('admin.delete_question', question_id=q.id, exam_id=exam.id) }}"
+                onclick="return confirm('Xóa câu hỏi này?')">❌ Xóa</a>
+
+        </li>
+        <hr>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Chưa có câu hỏi nào.</p>
+    {% endif %}
+
+    <p>
+        <a href="{{ url_for('admin.add_question', exam_id=exam.id) }}">➕ Thêm câu hỏi</a> |
+        <a href="{{ url_for('admin.dashboard') }}">⬅ Quay lại trang quản lý</a>
+    </p>
+
+</body>
+
+</html>

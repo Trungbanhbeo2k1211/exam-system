@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đề thi</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .create-exam-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+        }
+
+        .create-exam-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .exam-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .exam-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .exam-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .exam-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .exam-duration {
+            display: inline-block;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .action-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .add-link {
+            background-color: rgba(72, 149, 239, 0.1);
+            color: var(--accent-color);
+        }
+
+        .view-link {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success-color);
+        }
+
+        .edit-link {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .delete-link {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger-color);
+        }
+
+        .action-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .exam-list {
+                grid-template-columns: 1fr;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .action-links {
+                flex-direction: column;
+            }
+            
+            .action-link {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Quản lý đề thi</h2>
+
+    <a href="{{ url_for('admin.create_exam') }}" class="create-exam-btn">
+        <span>📝</span> Tạo đề thi mới
+    </a>
+
+    <ul class="exam-list">
+        {% for exam in exams %}
+        <li class="exam-item">
+            <h3 class="exam-title">{{ exam.title }}</h3>
+            <span class="exam-duration">{{ exam.duration }} phút</span>
+            
+            <div class="action-links">
+                <a href="{{ url_for('admin.add_question', exam_id=exam.id) }}" class="action-link add-link">
+                    <span>➕</span> Thêm câu hỏi
+                </a>
+                <a href="{{ url_for('admin.view_questions', exam_id=exam.id) }}" class="action-link view-link">
+                    <span>📋</span> Xem câu hỏi
+                </a>
+                <a href="{{ url_for('admin.edit_exam', exam_id=exam.id) }}" class="action-link edit-link">
+                    <span>🛠️</span> Sửa
+                </a>
+                <a href="{{ url_for('admin.delete_exam', exam_id=exam.id) }}" 
+                   class="action-link delete-link"
+                   onclick="return confirm('Xác nhận xóa đề thi này?')">
+                    <span>❌</span> Xóa
+                </a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --secondary-color: #3a56a0;
+        --accent-color: #4895ef;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-color);
+        background-color: #f5f7fa;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid rgba(67, 97, 238, 0.2);
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    form {
+        background-color: white;
+        padding: 2rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+    }
+
+    .question-container {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .question-text {
+        font-weight: 500;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        color: var(--dark-color);
+    }
+
+    .question-number {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem; /* Giảm khoảng cách giữa các đáp án */
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem; /* Giảm khoảng cách giữa checkbox và text */
+        cursor: pointer;
+        padding: 0.5rem 0.8rem; /* Giảm padding */
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        margin: 0.2rem 0; /* Giảm margin */
+    }
+
+    label:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    input[type="checkbox"] {
+        accent-color: var(--primary-color);
+        width: 1.1rem;
+        height: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    input[type="text"] {
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        width: 100%;
+        max-width: 250px;
+        margin: 0.3rem 0;
+    }
+
+    .matching-pair {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.6rem;
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background-color: #eee;
+        margin: 1rem 0;
+    }
+
+    button[type="submit"] {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: block;
+        width: 100%;
+        max-width: 180px;
+        margin: 1.5rem auto 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        body {
+            padding: 1.2rem;
+        }
+        
+        form {
+            padding: 1.2rem;
+        }
+        
+        .options-container {
+            gap: 0.4rem;
+        }
+        
+        label {
+            padding: 0.4rem 0.6rem;
+        }
+    }
+
+        button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    #prev-btn {
+        background-color: #f0f0f0;
+        color: #333;
+    }
+
+    #prev-btn:hover {
+        background-color: #ddd;
+    }
+
+    #next-btn {
+        background-color: #007bff;
+        color: white;
+    }
+
+    #next-btn:hover {
+        background-color: #0056b3;
+    }
+
+    #submit-btn {
+        background-color: #28a745;
+        color: white;
+    }
+
+    #submit-btn:hover {
+        background-color: #218838;
+    }
+
+        .alert {
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        font-weight: 500;
+        border-left: 6px solid;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-color: #28a745;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-color: #dc3545;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border-color: #ffc107;
+    }
+
+    .alert-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border-color: #17a2b8;
+    }
+
+    .alert-dismissible {
+        position: relative;
+        padding-right: 40px;
+    }
+
+    .alert-dismissible button.close {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: inherit;
+        cursor: pointer;
+    }
+</style>
+</head>
+<h2>📝 Làm bài: {{ exam.title }}</h2>
+<p>📊 Tiến trình: <span id="progress"></span></p>
+
+{% if exam.duration %}
+<p>⏳ Thời gian còn lại: <span id="timer" style="color: red; font-weight: bold;"></span></p>
+{% endif %}
+
+<form method="POST" action="{{ url_for('student.submit_exam', exam_id=exam.id) }}" id="exam-form">
+    <div id="questions-wrapper">
+        {% for q in questions %}
+        <div class="question-block" data-index="{{ loop.index0 }}" data-qid="{{ q.id }}" style="display: none;">
+            <p><strong>Câu {{ loop.index }}:</strong> {{ q.question_text }}</p>
+
+            {% if q.question_type in ['multiple_choice', 'true_false_multi'] %}
+                {% for c in q.choices %}
+                    <label>
+                        <input type="checkbox"
+                            name="q_{{ q.id }}"
+                            value="{{ c.id }}"
+                            onchange="checkAnswer({{ q.id }})"
+                        > {{ c.choice_text }}
+                    </label><br>
+                {% endfor %}
+                <button type="button" onclick="checkAnswerByType('{{ q.question_type }}', {{ q.id }})">🔍 Kiểm tra đáp án</button>
+                <div id="feedback-{{ q.id }}" class="feedback" style="margin-top: 10px;"></div>
+
+            {% elif q.question_type == 'fill_blank' %}
+                <input type="text" name="q_{{ q.id }}" onblur="checkFillBlank({{ q.id }})">
+                <button type="button" onclick="checkAnswerByType('{{ q.question_type }}', {{ q.id }})">🔍 Kiểm tra đáp án</button>
+                <div id="feedback-{{ q.id }}" class="feedback" style="margin-top: 10px;"></div>
+
+            {% elif q.question_type == 'matching' %}
+                {% for m in q.match_pairs %}
+                    <div>
+                        {{ m.left_text }} - <input type="text"
+                            name="q_{{ q.id }}_{{ loop.index }}"
+                            onblur="checkMatch({{ q.id }}, '{{ m.left_text|escape }}', this.value)"
+                        >
+                    </div>
+                {% endfor %}
+                <button type="button" onclick="checkAnswerByType('{{ q.question_type }}', {{ q.id }})">🔍 Kiểm tra đáp án</button>
+                <div id="feedback-{{ q.id }}" class="feedback" style="margin-top: 10px;"></div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+<div style="display: flex; justify-content: space-between; margin-top: 20px;">
+    <button type="button" id="prev-btn" style="display: none;">⬅ Quay lại</button>
+
+    <div style="margin-left: auto;">
+        <button type="button" id="next-btn">Tiếp ➡</button>
+        <button type="submit" id="submit-btn" style="display: none;">✅ Nộp bài</button>
+    </div>
+</div>
+
+</form>
+
+
+<script>
+    const questions = document.querySelectorAll('.question-block');
+    let current = 0;
+
+    function showQuestion(index) {
+        questions.forEach((q, i) => {
+            q.style.display = i === index ? 'block' : 'none';
+        });
+
+        document.getElementById('prev-btn').style.display = index > 0 ? 'inline-block' : 'none';
+        document.getElementById('next-btn').style.display = index < questions.length - 1 ? 'inline-block' : 'none';
+        document.getElementById('submit-btn').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+    }
+
+    document.getElementById('prev-btn').addEventListener('click', () => {
+        if (current > 0) {
+            current--;
+            showQuestion(current);
+        }
+    });
+
+document.getElementById('next-btn').addEventListener('click', () => {
+    if (!checkAnswered(current)) {
+        if (!confirm("⚠️ Bạn chưa trả lời câu này. Bạn có chắc chắn muốn chuyển tiếp?")) {
+            return;
+        }
+    }
+    if (current < questions.length - 1) {
+        current++;
+        showQuestion(current);
+    }
+});
+
+
+    showQuestion(current); // hiển thị câu đầu tiên
+
+    {% if exam.duration %}
+    let secondsLeft = {{ exam.duration * 60 }};
+    const timerEl = document.getElementById("timer");
+
+    const updateTimer = () => {
+        let minutes = Math.floor(secondsLeft / 60);
+        let seconds = secondsLeft % 60;
+        timerEl.textContent = `${minutes} phút ${seconds < 10 ? '0' : ''}${seconds} giây`;
+
+        if (secondsLeft <= 0) {
+            clearInterval(timer);
+            alert("⏰ Hết giờ! Bài thi sẽ được nộp.");
+            document.getElementById("exam-form").submit();
+        }
+
+        secondsLeft--;
+    };
+
+    const timer = setInterval(updateTimer, 1000);
+    updateTimer();
+    {% endif %}
+
+
+    function showQuestion(index) {
+    questions.forEach((q, i) => {
+        q.style.display = i === index ? 'block' : 'none';
+    });
+
+    document.getElementById('prev-btn').style.display = index > 0 ? 'inline-block' : 'none';
+    document.getElementById('next-btn').style.display = index < questions.length - 1 ? 'inline-block' : 'none';
+    document.getElementById('submit-btn').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+
+    // 🔁 Cập nhật tiến trình
+    document.getElementById('progress').textContent = `Câu ${index + 1} / ${questions.length}`;
+}
+
+function checkAnswered(index) {
+    const block = questions[index];
+    const inputs = block.querySelectorAll('input');
+
+    for (let input of inputs) {
+        if (
+            (input.type === "checkbox" || input.type === "radio") && input.checked
+        ) {
+            return true;
+        }
+        if (input.type === "text" && input.value.trim() !== "") {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+// function checkAnswer(questionId) {
+//     const selected = document.querySelector(`input[name="q_${questionId}"]:checked`);
+//     if (!selected) return;
+
+//     const choiceId = selected.value;
+
+//     fetch("/student/check_answer", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         // body: JSON.stringify({ question_id: questionId, choice_id: choiceId })
+//         body: JSON.stringify({ type: 'multiple_choice', question_id: questionId, choice_id: choiceId })
+
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         const fb = document.getElementById(`feedback-${questionId}`);
+//         if (data.correct) {
+//             fb.innerHTML = "✅ Đúng";
+//             fb.style.color = "green";
+//         } else {
+//             fb.innerHTML = `❌ Sai. Đáp án đúng: ${data.correct_text}`;
+//             fb.style.color = "red";
+//         }
+//     });
+// }
+
+
+
+// function checkFillBlank(questionId) {
+//     const input = document.querySelector(`input[name="q_${questionId}"]`);
+//     const answer = input.value.trim();
+
+//     if (!answer) return;
+
+//     fetch("/student/check_answer", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ type: 'fill_blank', question_id: questionId, answer: answer })
+//     })
+//     .then(res => res.json())
+//     .then(data => showFeedback(questionId, data));
+// }
+
+// function checkMatch(questionId, left, userInput) {
+//     if (!userInput.trim()) return;
+
+//     fetch("/student/check_answer", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ type: 'matching', question_id: questionId, left_text: left, user_input: userInput })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         const fb = document.getElementById(`feedback-${questionId}`);
+//         const old = fb.innerHTML;
+//         const msg = data.correct
+//             ? `<div style="color: green">✅ ${left} - ${userInput}</div>`
+//             : `<div style="color: red">❌ ${left} - ${userInput} → Đúng: ${data.correct_text}</div>`;
+//         fb.innerHTML = old + msg;
+//     });
+// }
+
+// function showFeedback(questionId, data) {
+//     const fb = document.getElementById(`feedback-${questionId}`);
+//     if (data.correct) {
+//         fb.innerHTML = "✅ Chính xác!";
+//         fb.style.color = "green";
+//     } else {
+//         fb.innerHTML = `❌ Sai. Đáp án đúng là: ${data.correct_text}`;
+//         fb.style.color = "red";
+//     }
+// }
+
+
+// function checkAnswer(questionId) {
+//     const checkboxes = document.querySelectorAll(`input[name="q_${questionId}"]:checked`);
+//     const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+
+//     fetch("/student/check_answer", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//             type: 'true_false_multi',  // hoặc 'multiple_choice'
+//             question_id: questionId,
+//             choice_ids: selectedIds
+//         })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         const fb = document.getElementById(`feedback-${questionId}`);
+//         if (data.correct) {
+//             fb.innerHTML = "✅ Đúng rồi!";
+//             fb.style.color = "green";
+//         } else {
+//             fb.innerHTML = "❌ Sai. Đáp án đúng là: <br>" + data.correct_choices.join("<br>");
+//             fb.style.color = "red";
+//         }
+//     });
+// }
+
+function checkAnswerByType(type, questionId) {
+    if (type === 'multiple_choice') {
+        const selected = document.querySelector(`input[name="q_${questionId}"]:checked`);
+        if (!selected) return alert("Bạn chưa chọn đáp án!");
+        const choiceId = selected.value;
+
+        fetch("/student/check_answer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "multiple_choice", question_id: questionId, choice_id: choiceId })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const fb = document.getElementById(`feedback-${questionId}`);
+            fb.innerHTML = data.correct ? "✅ Đúng" : `❌ Sai. Đáp án đúng: ${data.correct_text}`;
+            fb.style.color = data.correct ? "green" : "red";
+        });
+
+    } else if (type === 'true_false_multi') {
+        const checkboxes = document.querySelectorAll(`input[name="q_${questionId}"]:checked`);
+        const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+
+        fetch("/student/check_answer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "true_false_multi", question_id: questionId, choice_ids: selectedIds })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const fb = document.getElementById(`feedback-${questionId}`);
+            fb.innerHTML = data.correct
+              ? "✅ Tất cả đáp án đúng!"
+              : `❌ Sai. Đáp án đúng là:<br>${data.correct_choices.join("<br>")}`;
+            fb.style.color = data.correct ? "green" : "red";
+        });
+
+    } else if (type === 'fill_blank') {
+        const input = document.querySelector(`input[name="q_${questionId}"]`);
+        const answer = input.value.trim();
+
+        fetch("/student/check_answer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "fill_blank", question_id: questionId, answer })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const fb = document.getElementById(`feedback-${questionId}`);
+            fb.innerHTML = data.correct ? "✅ Chính xác!" : `❌ Sai. Đáp án: ${data.correct_text}`;
+            fb.style.color = data.correct ? "green" : "red";
+        });
+
+    } else if (type === 'matching') {
+        const inputs = document.querySelectorAll(`[name^="q_${questionId}_"]`);
+        inputs.forEach((inp, idx) => {
+            const leftText = inp.previousSibling?.textContent?.split('-')[0]?.trim();
+            const userInput = inp.value.trim();
+
+            fetch("/student/check_answer", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    type: "matching",
+                    question_id: questionId,
+                    left_text: leftText,
+                    user_input: userInput
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const fb = document.getElementById(`feedback-${questionId}`);
+                const msg = data.correct
+                  ? `<div style="color: green">✅ ${leftText} - ${userInput}</div>`
+                  : `<div style="color: red">❌ ${leftText} - ${userInput} → Đúng: ${data.correct_text}</div>`;
+                fb.innerHTML += msg;
+            });
+        });
+    }
+}
+
+
+</script>
+
+

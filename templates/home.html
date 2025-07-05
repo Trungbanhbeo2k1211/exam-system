@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống thi online</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a56a0;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #28a745;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .hero-container {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 3.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        p.tagline {
+            font-size: 1.2rem;
+            color: #495057;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.8rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            width: 100%;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .feature-desc {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .logo-icon {
+                font-size: 3rem;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+
+                /* Footer Styles */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-about p {
+            color: #adb5bd;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .footer-links a::before {
+            content: '→';
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            color: #adb5bd;
+        }
+
+        .contact-icon {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-column {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-container">
+        <h1>
+            <span class="logo-icon">📚</span>
+            Hệ thống thi online
+        </h1>
+        
+        <p class="tagline">
+            Nền tảng thi trực tuyến chuyên nghiệp, giúp bạn đánh giá kiến thức 
+            và chuẩn bị tốt nhất cho các kỳ thi quan trọng.
+        </p>
+        
+        <div class="auth-buttons">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary">
+                Đăng nhập
+            </a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-outline">
+                Đăng ký tài khoản
+            </a>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3 class="feature-title">Thi thử đa dạng</h3>
+                <p class="feature-desc">
+                    Hàng trăm đề thi với nhiều môn học khác nhau
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Kết quả tức thì</h3>
+                <p class="feature-desc">
+                    Xem điểm và đáp án ngay sau khi hoàn thành bài thi
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3 class="feature-title">Xếp hạng</h3>
+                <p class="feature-desc">
+                    So sánh kết quả với các thí sinh khác
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column footer-about">
+                <div class="footer-logo">
+                    <span class="footer-logo-icon">📚</span>
+                    <span class="footer-logo-text">ThiOnline</span>
+                </div>
+                <p>
+                    Hệ thống thi trực tuyến hàng đầu, cung cấp giải pháp đánh giá 
+                    kiến thức toàn diện cho học sinh, sinh viên và người đi làm.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📱</a>
+                    <a href="#" class="social-link">💻</a>
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">📧</a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-heading">Liên kết nhanh</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('home') }}">Trang chủ</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Đăng nhập</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Đăng ký</a></li>
+                    <li><a href="#">Hướng dẫn sử dụng</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-heading">Thông tin liên hệ</h3>
+                <ul class="contact-info">
+                    <li>
+                        <span class="contact-icon">📍</span>
+                        <span>12a, Phùng Khoang, Trung Văn, Hà Nội</span>
+                    </li>
+                    <li>
+                        <span class="contact-icon">📞</span>
+                        <span>(+84) 327 950 819</span>
+                    </li>
+                    <li>
+                        <span class="contact-icon">✉️</span>
+                        <span>viettrung6868@gmail.com</span>
+                    </li>
+                    <!-- <li>
+                        <span class="contact-icon">⏱️</span>
+                        <span>Thứ 2 - Thứ 7: 8:00 - 17:00</span>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 Hệ thống ThiOnline. Bảo lưu mọi quyền.
+        </div>
+    </footer>
+</body>
+</html>
